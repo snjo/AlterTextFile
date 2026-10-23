@@ -14,22 +14,34 @@ Source code repository: https://github.com/snjo/altertextfile
 
 ## Command line arguments
 
-|  Argument      | Parameters          | Function                                                           |
-|----------------|---------------------|--------------------------------------------------------------------|
-| -source        | FILEPATH            | The file to read from                                              |
-| -target        | FILEPATH            | The file to write to                                               |
-| -inencoding    | CODEPAGE            | Read source file using UTF8/Latin1/865...                          |
-| -outencoding   | CODEPAGE            | Write to target file using UTF8/Latin1/865...                      |
-| -rlblank       |                     | removes blank lines                                                |
-| -rlfirst       | number              | remove n number of lines from start of file                        |
-| -rllast        | number              | remove n number of lines from end of file                          |
-| -rlcontains    | "text"              | remove lines containing string (case insensitive)                  |
-| -rlexact       | "text"              | remove lines containing an exact match (case insensitive)          |
-| -casesensitive |                     | Use strict case matching                                           |
-| -replace       | "oldText" "newText" | replace all instances of a string with (always case sensitive)     | 
-| -trim          |                     | Trim white space at the start and end of lines                     |
-| -verbose       |                     | Displays the effect of each argument during processing             |
-| -help          |                     | This page                                                          |
+|  Argument      | Parameters             | Function                                                           |
+|----------------|------------------------|--------------------------------------------------------------------|
+| -source        | FILEPATH               | The file to read from                                              |
+| -target        | FILEPATH               | The file to write to                                               |
+| -inencoding    | CODEPAGE               | Read source file using UTF8/Latin1/865...                          |
+| -outencoding   | CODEPAGE               | Write to target file using UTF8/Latin1/865...                      |
+| -rlblank       |                        | removes blank lines                                                |
+| -rlfirst       | number                 | remove n number of lines from start of file                        |
+| -rllast        | number                 | remove n number of lines from end of file                          |
+| -rlcontains    | "text" +               | remove lines containing string (case insensitive)                  |
+| -rlexact       | "text" +               | remove lines containing an exact match (case insensitive)          |
+| -casesensitive |                        | Use strict case matching                                           |
+| -replace       | "oldText" "newText" ++ | replace all instances of a string with (always case sensitive)     | 
+| -trim          |                        | Trim white space at the start and end of lines                     |
+| -verbose       |                        | Displays the effect of each argument during processing             |
+| -help          |                        | This page                                                          |
+
+## Arguments with multiple parameters
+Arguments marked with + can take up to 10 parameters.
+In the case of Replace, they must be in pairs, or they will be skipped
+
+	Example: -rlcontains "Lorem" "Ipsum dolor" > Removes lines wit any of the two arguments
+	Example: -replace "Lorem" "Ipsum" "Dolor" "Sit" > Replaces Lorem with Ipsum and Dolor with Sit
+
+## Escaping text starting with -
+If you need to match to text in the file starting with "-", use the escape character "\" at the start of the string
+
+	Example: -rlcontains "\---" > Removes lines starting with ---
 
 ## Output
 You can use the same filepath as both source and target, but the program will not default to that, you must manually specify the target parameter.

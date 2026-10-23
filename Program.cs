@@ -48,12 +48,17 @@ for (int i = 0; i < args.Length; i++)
             ErrorMessageAndExit($"You can't add the argument {arg} twice");
         }
         arguments.Add(arg, newArg);
-        for (int a = i + 1; a <= i + 2; a++)
+        for (int a = i + 1; a <= i + 10; a++)
         {
             if (args.Length > a)
             {
-                if (args[a].StartsWith("-") == false)
+                if (args[a].StartsWith("-") == false || args[a].StartsWith(@"\-") == true)  // \- is an escape character for - in case it's not an actual parameter, gets replaced
                 {
+                    if (args[a].StartsWith(@"\-"))
+                    {
+                        args[a] = args[a][1..];
+                        //Console.WriteLine($"Escaped \\- to - in line {args[a]}");
+                    }
                     newArg.Subargs.Add(args[a]);
                 }
                 else
@@ -63,6 +68,12 @@ for (int i = 0; i < args.Length; i++)
             }
         }
     }
+}
+
+
+if (arguments.ContainsKey("-verbose"))
+{
+    verbose = true;
 }
 
 VerboseWriteLine("---ARGUMENTS---");
@@ -78,12 +89,17 @@ foreach (Argument arg in arguments.Values)
 
 string sourcefile = "";
 
+// debug, show a list of all arguments
+//if (verbose)
+//{
+//    foreach (string arg in args)
+//    {
+//        Console.WriteLine($"ARG : {arg}");
+//    }
+//}
+
 // Process arguments
 
-if (arguments.ContainsKey("-verbose"))
-{
-    verbose = true;
-}
 
 if (arguments.ContainsKey("-casesensitive"))
 {
@@ -254,20 +270,24 @@ if (arguments.ContainsKey("-replace"))
         ErrorMessageAndExit("Too few arguments in -replace");
     }
 
-    string oldtext = arg.Subargs[0];
-    string newtext = arg.Subargs[1];
-
-    int linesChanged = 0;
-    for (int i = 0; i < linesOut.Count; i++)
+    for (int a = 0; a < arg.Subargs.Count-1; a+=2)
     {
-        int l = linesOut[i].Length;
-        linesOut[i] = linesOut[i].Replace(oldtext, newtext);
-        if (l != linesOut[i].Length)
+        string oldtext = arg.Subargs[a];
+        string newtext = arg.Subargs[a+1];
+        VerboseWriteLine($"Replace {oldtext} > {newtext}");
+
+        int linesChanged = 0;
+        for (int i = 0; i < linesOut.Count; i++)
         {
-            linesChanged++;
+            int l = linesOut[i].Length;
+            linesOut[i] = linesOut[i].Replace(oldtext, newtext);
+            if (l != linesOut[i].Length)
+            {
+                linesChanged++;
+            }
         }
+        VerboseWriteLine($"Replace Text changed lines {linesChanged}");
     }
-    VerboseWriteLine($"Replace Text changed lines {linesChanged}");
 }
 
 if (arguments.ContainsKey("-rlcontains"))
@@ -278,11 +298,16 @@ if (arguments.ContainsKey("-rlcontains"))
         ErrorMessageAndExit("Too few arguments in -rlcontains");
     }
 
-    string text = arg.Subargs[0];
-
-    int linesOld = linesOut.Count;
-    linesOut.RemoveAll(u => u.Contains(text, stringComparison));
-    VerboseWriteLine($"Removed lines containing '{text}': {linesOld - linesOut.Count}");
+    //int linesOld = linesOut.Count;
+    foreach (string text in arg.Subargs)
+    {
+        int linesOld = linesOut.Count;
+        //string text = arg.Subargs[0];
+        
+        
+        linesOut.RemoveAll(u => u.Contains(text, stringComparison));
+        VerboseWriteLine($"Removing lines containing {text}: {linesOld - linesOut.Count}");
+    }
 }
 
 if (arguments.ContainsKey("-rlexact"))
@@ -294,11 +319,16 @@ if (arguments.ContainsKey("-rlexact"))
         ErrorMessageAndExit("Too few arguments in -rlexact");
     }
 
-    string text = arg.Subargs[0];
+    Console.WriteLine($"Removing lines with exact match, parameters {arg.Subargs.Count}");
+    foreach (string text in arg.Subargs)
+    {
+        int linesOld = linesOut.Count;
+        //string text = arg.Subargs[0];
 
-    int linesOld = linesOut.Count;
-    linesOut.RemoveAll(u => u.Equals(text, stringComparison));
-    VerboseWriteLine($"Removing lines matching '{text}': {linesOld - linesOut.Count}");
+
+        linesOut.RemoveAll(u => u.Equals(text, stringComparison));
+        VerboseWriteLine($"Removing lines matching {text}: {linesOld - linesOut.Count}");
+    }
 }
 
 if (arguments.ContainsKey("-trim"))
