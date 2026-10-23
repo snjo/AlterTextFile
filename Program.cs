@@ -438,6 +438,7 @@ void ShowHelp()
     Console.WriteLine();
     Console.WriteLine("ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)");
     Console.WriteLine("Processes a text file to remove unwanted lines or strings, or change codepage");
+    Console.WriteLine("By Andreas Aakvik Gogstad");
     Console.WriteLine();
     Console.WriteLine("-source FILEPATH        The file to read from");
     Console.WriteLine("-target FILEPATH        The file to write to");
