@@ -481,13 +481,15 @@ void ShowHelp()
     Console.WriteLine("-rlblank                removes blank lines");
     Console.WriteLine("-rlfirst n              remove n number of lines from start of file");
     Console.WriteLine("-rllast n               remove n number of lines from end of file");
-    Console.WriteLine("-rlcontains \"aaa\"       remove lines containing string (case insensitive)");
-    Console.WriteLine("-rlexact \"aaa\"          remove lines containing an exact match (case insensitive)");
+    Console.WriteLine("-rlcontains \"aaa\" +     remove lines containing string (case insensitive)");
+    Console.WriteLine("-rlexact \"aaa\" +        remove lines containing an exact match (case insensitive)");
     Console.WriteLine("-casesensitive          Use strict case matching");
-    Console.WriteLine("-replace \"aaa\" \"bbb\"    replace all instances of a string with (always case sensitive)");
+    Console.WriteLine("-replace \"aaa\" \"bbb\" ++ replace all instances of a string with (always case sensitive)");
     Console.WriteLine("-trim                   Trim white space at the start and end of lines");
     Console.WriteLine("-verbose                Displays the effect of each argument during processing");
     Console.WriteLine("-help                   This page");
+    Console.WriteLine();
+    Console.WriteLine("Parameters marked with + can take multiple strings, or pairs of multiple for -replace");
     Console.WriteLine();
 }
 
