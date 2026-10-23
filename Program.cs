@@ -11,7 +11,10 @@ StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 
 if (args.Length < 1)
 {
-    ErrorMessageAndExit("Too few arguments. Use -help for more information");
+    ShowHelp();
+    Console.WriteLine("Press any key to continue");
+    Console.ReadKey();
+    Environment.Exit(0);
 }
 
 
@@ -436,9 +439,10 @@ void ErrorMessageAndExit(string message, int code = 1)
 void ShowHelp()
 {
     Console.WriteLine();
-    Console.WriteLine("ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)");
     Console.WriteLine("Processes a text file to remove unwanted lines or strings, or change codepage");
     Console.WriteLine("By Andreas Aakvik Gogstad, Source code: https://github.com/snjo/altertextfile");
+    Console.WriteLine();
+    Console.WriteLine("ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)");
     Console.WriteLine();
     Console.WriteLine("-source FILEPATH        The file to read from");
     Console.WriteLine("-target FILEPATH        The file to write to");

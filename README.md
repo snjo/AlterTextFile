@@ -1,11 +1,18 @@
 # AlterTextFile
 
-	ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)
+
+
 
 Processes a text file to remove unwanted lines or strings, or change codepage
+
 By Andreas Aakvik Gogstad
 
 Source code repository: https://github.com/snjo/altertextfile
+
+## Command line
+	ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)
+
+## Command line arguments
 
 |  Argument      | Parameters          | Function                                                           |
 |----------------|---------------------|--------------------------------------------------------------------|
@@ -29,6 +36,7 @@ You can use the same filepath as both source and target, but the program will no
 
 ## Encoding
 If you see incorrect characters in the output, specify the -inencoding parameter. If you're unsure of the file's encoding, try opening it in Notepad++ and checking the Encoding menu.
+
 You only need to change the -outencoding if the receiving system isn't expecting a UTF-8 file.
 
 ## Valid code pages
