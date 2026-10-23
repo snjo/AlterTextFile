@@ -10,7 +10,7 @@ By Andreas Aakvik Gogstad
 Source code repository: https://github.com/snjo/altertextfile
 
 ## Command line
-	ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)
+	ALTERTEXTFILE.EXE -source FILENAME [-target FILENAME] (arguments)
 
 ## Command line arguments
 
@@ -37,6 +37,10 @@ In the case of Replace, they must be in pairs, or they will be skipped
 
 	Example: -rlcontains "Lorem" "Ipsum dolor" > Removes lines wit any of the two arguments
 	Example: -replace "Lorem" "Ipsum" "Dolor" "Sit" > Replaces Lorem with Ipsum and Dolor with Sit
+
+## Testing output without writing to a file
+You can skip the -target argument to just see the how many lines would be changed, without writing to a file.  
+You should enable -verbose to get any use out of this.
 
 ## Escaping text starting with -
 If you need to match to text in the file starting with `-`, use the escape character `\` (backslash) at the start of the string
