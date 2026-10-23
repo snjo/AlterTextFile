@@ -4,6 +4,7 @@
 
 Processes a text file to remove unwanted lines or strings, or change codepage
 By Andreas Aakvik Gogstad
+
 Source code repository: https://github.com/snjo/altertextfile
 
 |  Argument      | Parameters          | Function                                                           |
