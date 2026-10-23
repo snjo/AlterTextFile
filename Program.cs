@@ -7,6 +7,7 @@ Encoding inEncoding = Encoding.UTF8;
 Encoding outEncoding = Encoding.UTF8;
 bool ByteOrderMark = false;
 bool verbose = false;
+StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 
 if (args.Length < 1)
 {
@@ -24,6 +25,7 @@ if (args.Length < 1)
 //-rlcontains "aaa" - remove lines containing string (case insensitive)
 //-rlexact "aaa" - remove lines containing an exact match (case insensitive)
 //-replace "aaa" "bbb" - replace all instances of a string with
+//-casesensitive
 //-trim
 //-verbose
 //-help
@@ -78,6 +80,16 @@ string sourcefile = "";
 if (arguments.ContainsKey("-verbose"))
 {
     verbose = true;
+}
+
+if (arguments.ContainsKey("-casesensitive"))
+{
+    VerboseWriteLine("Case sensitivity is ON");
+    stringComparison = StringComparison.Ordinal;
+}
+else
+{
+    VerboseWriteLine("Case sensitivity is OFF");
 }
 
 if (arguments.ContainsKey("-help") || arguments.ContainsKey("-?") || arguments.ContainsKey("/help") || arguments.ContainsKey("/?"))
@@ -265,8 +277,8 @@ if (arguments.ContainsKey("-rlcontains"))
 
     string text = arg.Subargs[0];
 
-    int linesOld = 0;
-    linesOut.RemoveAll(u => u.Contains(text, StringComparison.CurrentCultureIgnoreCase));
+    int linesOld = linesOut.Count;
+    linesOut.RemoveAll(u => u.Contains(text, stringComparison));
     VerboseWriteLine($"Removed lines containing '{text}': {linesOld - linesOut.Count}");
 }
 
@@ -282,7 +294,7 @@ if (arguments.ContainsKey("-rlexact"))
     string text = arg.Subargs[0];
 
     int linesOld = linesOut.Count;
-    linesOut.RemoveAll(u => u.Equals(text, StringComparison.CurrentCultureIgnoreCase));
+    linesOut.RemoveAll(u => u.Equals(text, stringComparison));
     VerboseWriteLine($"Removing lines matching '{text}': {linesOld - linesOut.Count}");
 }
 
@@ -434,9 +446,10 @@ void ShowHelp()
     Console.WriteLine("-rlblank                removes blank lines");
     Console.WriteLine("-rlfirst n              remove n number of lines from start of file");
     Console.WriteLine("-rllast n               remove n number of lines from end of file");
-    Console.WriteLine("-rlcontains 'aaa'       remove lines containing string (case insensitive)");
-    Console.WriteLine("-rlexact 'aaa'          remove lines containing an exact match (case insensitive)");
-    Console.WriteLine("-replace 'aaa' 'bbb'    replace all instances of a string with");
+    Console.WriteLine("-rlcontains \"aaa\"       remove lines containing string (case insensitive)");
+    Console.WriteLine("-rlexact \"aaa\"          remove lines containing an exact match (case insensitive)");
+    Console.WriteLine("-casesensitive          Use strict case matching");
+    Console.WriteLine("-replace \"aaa\" \"bbb\"    replace all instances of a string with (always case sensitive)");
     Console.WriteLine("-trim                   Trim white space at the start and end of lines");
     Console.WriteLine("-verbose                Displays the effect of each argument during processing");
     Console.WriteLine("-help                   This page");
