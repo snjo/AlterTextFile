@@ -52,7 +52,7 @@ for (int i = 0; i < args.Length; i++)
         {
             if (args.Length > a)
             {
-                if (args[a].StartsWith("-") == false || args[a].StartsWith(@"\-") == true)  // \- is an escape character for - in case it's not an actual parameter, gets replaced
+                if (args[a].StartsWith("-") == false)  // \- is an escape character for - in case it's not an actual parameter, gets replaced
                 {
                     if (args[a].StartsWith(@"\-"))
                     {
