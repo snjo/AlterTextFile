@@ -39,7 +39,7 @@ In the case of Replace, they must be in pairs, or they will be skipped
 	Example: -replace "Lorem" "Ipsum" "Dolor" "Sit" > Replaces Lorem with Ipsum and Dolor with Sit
 
 ## Escaping text starting with -
-If you need to match to text in the file starting with "-", use the escape character "\" at the start of the string
+If you need to match to text in the file starting with "-", use the escape character "\\" (single backslash) at the start of the string
 
 	Example: -rlcontains "\---" > Removes lines starting with ---
 
