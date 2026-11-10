@@ -9,7 +9,7 @@ bool ByteOrderMark = false;
 bool verbose = false;
 StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 
-if (args.Length < 1)
+if (args.Length < 1) // in case the user is starting the program by double clicking, show help text and pause for key press instead of exiting immediately
 {
     ShowHelp();
     Console.WriteLine("Press any key to continue");
@@ -17,6 +17,11 @@ if (args.Length < 1)
     Environment.Exit(0);
 }
 
+if (args[0] == "/?" || args[0].StartsWith("/h")) // extra handling of arguments starting with /, arguments starting with - like -help are handled normally
+{
+    ShowHelp();
+    Environment.Exit(0);
+}
 
 //-source file
 //-target file
@@ -33,7 +38,7 @@ if (args.Length < 1)
 //-verbose
 //-help
 
-// Build arguments
+// Build the arguments list
 
 Dictionary<string, Argument> arguments = [];
 
@@ -111,7 +116,7 @@ else
     VerboseWriteLine("Case sensitivity is OFF");
 }
 
-if (arguments.ContainsKey("-help") || arguments.ContainsKey("-?") || arguments.ContainsKey("/help") || arguments.ContainsKey("/?"))
+if (arguments.ContainsKey("-help") || arguments.ContainsKey("-?"))
 {
     ShowHelp();
     Environment.Exit(0);
@@ -462,15 +467,20 @@ void ErrorMessageAndExit(string message, int code = 1)
     ConsoleColor previous = Console.ForegroundColor;
     Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine(message);
+    Console.WriteLine("For a list of arguments, use -help");
     Console.ForegroundColor = previous;
     Environment.Exit(code);
 }
 
 void ShowHelp()
 {
+    ConsoleColor previousColor = Console.ForegroundColor;
     Console.WriteLine();
     Console.WriteLine("Processes a text file to remove unwanted lines or strings, or change codepage");
-    Console.WriteLine("By Andreas Aakvik Gogstad, Source code: https://github.com/snjo/altertextfile");
+    Console.Write("By Andreas Aakvik Gogstad, Source code: ");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("https://github.com/snjo/altertextfile");
+    Console.ForegroundColor = previousColor;
     Console.WriteLine();
     Console.WriteLine("ALTERTEXTFILE.EXE -source FILENAME -target FILENAME (arguments)");
     Console.WriteLine();
